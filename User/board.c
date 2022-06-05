@@ -71,6 +71,7 @@ void rt_hw_board_init()
 	
     /* ≥ı ºªØSysTick */
   HAL_SYSTICK_Config( HAL_RCC_GetSysClockFreq() / RT_TICK_PER_SECOND );	
+	LED_GPIO_Config();
     /* Call components board initial (use INIT_BOARD_EXPORT()) */
 #ifdef RT_USING_COMPONENTS_INIT
     rt_components_board_init();
