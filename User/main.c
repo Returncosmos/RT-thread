@@ -16,7 +16,7 @@
   */  
 #include "board.h"
 #include "rtthread.h"
-static struct rt_thread led1_thread;             //定义线程控制块
+static rt_thread_t led1_thread = RT_NULL;             //定义线程控制块
 ALIGN(RT_ALIGN_SIZE)                             //定义地址对其方式
 static rt_uint8_t rt_led1_thread_stack[1024];    //定义线程栈大小
 
@@ -28,15 +28,17 @@ static void led1_thread_entry(void* parameter);
   */
 int main(void)
 {
-	rt_thread_init(&led1_thread,
-	                "led",
+	led1_thread = 
+	rt_thread_create("led1",
                    led1_thread_entry,
 	                 RT_NULL,
-	                 &rt_led1_thread_stack[0],
-	                 sizeof(rt_led1_thread_stack),
+	                 512,
 									 3,
 									 20);
-	rt_thread_startup(&led1_thread);
+   if (led1_thread != RT_NULL)
+        rt_thread_startup(led1_thread);
+    else
+        return -1;
 }
 static void led1_thread_entry(void *parameter)
 {
