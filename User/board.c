@@ -72,6 +72,7 @@ void rt_hw_board_init()
     /* 初始化SysTick */
   HAL_SYSTICK_Config( HAL_RCC_GetSysClockFreq() / RT_TICK_PER_SECOND );	
 	LED_GPIO_Config();
+	DEBUG_USART_Config();
     /* Call components board initial (use INIT_BOARD_EXPORT()) */
 #ifdef RT_USING_COMPONENTS_INIT
     rt_components_board_init();
@@ -154,4 +155,24 @@ static void SystemClock_Config(void)
   {
     while(1) { ; }
   }
+}
+
+void rt_hw_console_output(const char *str)
+{	
+	/* 进入临界段 */
+    rt_enter_critical();
+
+	/* 直到字符串结束 */
+    while (*str!='\0')
+	{
+		/* 换行 */
+        if (*str=='\n')
+		{
+//			HAL_UART_Transmit( &UartHandle,(uint8_t *)'\r',1,1000);
+		}
+			HAL_UART_Transmit( &UartHandle,(uint8_t *)(str++),1,1000);
+	}	
+
+	/* 退出临界段 */
+    rt_exit_critical();
 }
