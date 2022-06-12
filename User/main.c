@@ -4,70 +4,76 @@
   * @author  fire
   * @version V1.0
   * @date    2018-xx-xx
-  * @brief   GPIOÊä³ö--Ê¹ÓÃ¹Ì¼ş¿âµãÁÁLEDµÆ
+  * @brief   GPIOè¾“å‡º--ä½¿ç”¨å›ºä»¶åº“ç‚¹äº®LEDç¯
   ******************************************************************
   * @attention
   *
-  * ÊµÑéÆ½Ì¨:Ò°»ğ STM32H743¿ª·¢°å 
-  * ÂÛÌ³    :http://www.firebbs.cn
-  * ÌÔ±¦    :http://firestm32.taobao.com
+  * å®éªŒå¹³å°:é‡ç« STM32H743å¼€å‘æ¿ 
+  * è®ºå›    :http://www.firebbs.cn
+  * æ·˜å®    :http://firestm32.taobao.com
   *
   ******************************************************************
   */  
 #include "board.h"
 #include "rtthread.h"
+
 static rt_thread_t led1_thread = RT_NULL;
-static rt_thread_t led2_thread = RT_NULL;             //¶¨ÒåÏß³Ì¿ØÖÆ¿é
-//ALIGN(RT_ALIGN_SIZE)                             //¶¨ÒåµØÖ·¶ÔÆä·½Ê½
-//static rt_uint8_t rt_led1_thread_stack[1024];    //¶¨ÒåÏß³ÌÕ»´óĞ¡
+static rt_thread_t led2_thread = RT_NULL;             //å®šä¹‰çº¿ç¨‹æ§åˆ¶å—
+//ALIGN(RT_ALIGN_SIZE)                             //å®šä¹‰åœ°å€å¯¹å…¶æ–¹å¼
+//static rt_uint8_t rt_led1_thread_stack[1024];    //å®šä¹‰çº¿ç¨‹æ ˆå¤§å°
+
 
 static void led1_thread_entry(void* parameter);
 static void led2_thread_entry(void* parameter);
 /**
-  * @brief  Ö÷º¯Êı
-  * @param  ÎŞ
-  * @retval ÎŞ
+  * @brief  ä¸»å‡½æ•°
+  * @param  æ— 
+  * @retval æ— 
   */
 int main(void)
 {
-	led1_thread =                          /* Ïß³Ì¿ØÖÆ¿éÖ¸Õë */
-    rt_thread_create( "led1",              /* Ïß³ÌÃû×Ö */
-                      led1_thread_entry,   /* Ïß³ÌÈë¿Úº¯Êı */
-                      RT_NULL,             /* Ïß³ÌÈë¿Úº¯Êı²ÎÊı */
-                      512,                 /* Ïß³ÌÕ»´óĞ¡ */
-                      3,                   /* Ïß³ÌµÄÓÅÏÈ¼¶ */
-                      20);                 /* Ïß³ÌÊ±¼äÆ¬ */
+
+	led1_thread =                          /* çº¿ç¨‹æ§åˆ¶å—æŒ‡é’ˆ */
+    rt_thread_create( "led1",              /* çº¿ç¨‹åå­— */
+                      led1_thread_entry,   /* çº¿ç¨‹å…¥å£å‡½æ•° */
+                      RT_NULL,             /* çº¿ç¨‹å…¥å£å‡½æ•°å‚æ•° */
+                      512,                 /* çº¿ç¨‹æ ˆå¤§å° */
+                      3,                   /* çº¿ç¨‹çš„ä¼˜å…ˆçº§ */
+                      20);                 /* çº¿ç¨‹æ—¶é—´ç‰‡ */
                    
-    /* Æô¶¯Ïß³Ì£¬¿ªÆôµ÷¶È */
+    /* å¯åŠ¨çº¿ç¨‹ï¼Œå¼€å¯è°ƒåº¦ */
+
    if (led1_thread != RT_NULL)
         rt_thread_startup(led1_thread);
     else
         return -1;
+
     
-    led2_thread =                          /* Ïß³Ì¿ØÖÆ¿éÖ¸Õë */
-    rt_thread_create( "led2",              /* Ïß³ÌÃû×Ö */
-                      led2_thread_entry,   /* Ïß³ÌÈë¿Úº¯Êı */
-                      RT_NULL,             /* Ïß³ÌÈë¿Úº¯Êı²ÎÊı */
-                      512,                 /* Ïß³ÌÕ»´óĞ¡ */
-                      4,                   /* Ïß³ÌµÄÓÅÏÈ¼¶ */
-                      20);                 /* Ïß³ÌÊ±¼äÆ¬ */
+    led2_thread =                          /* çº¿ç¨‹æ§åˆ¶å—æŒ‡é’ˆ */
+    rt_thread_create( "led2",              /* çº¿ç¨‹åå­— */
+                      led2_thread_entry,   /* çº¿ç¨‹å…¥å£å‡½æ•° */
+                      RT_NULL,             /* çº¿ç¨‹å…¥å£å‡½æ•°å‚æ•° */
+                      512,                 /* çº¿ç¨‹æ ˆå¤§å° */
+                      4,                   /* çº¿ç¨‹çš„ä¼˜å…ˆçº§ */
+                      20);                 /* çº¿ç¨‹æ—¶é—´ç‰‡ */
                    
-    /* Æô¶¯Ïß³Ì£¬¿ªÆôµ÷¶È */
+    /* å¯åŠ¨çº¿ç¨‹ï¼Œå¼€å¯è°ƒåº¦ */
    if (led2_thread != RT_NULL)
         rt_thread_startup(led2_thread);
     else
         return -1;
+
 }
 static void led1_thread_entry(void* parameter)
 {	
     while (1)
     {
         LED1_ON;
-        rt_thread_delay(500);   /* ÑÓÊ±500¸ötick */
+        rt_thread_delay(500);   /* å»¶æ—¶500ä¸ªtick */
 			  rt_kprintf("led1_thread running,LED1_ON\r\n");
         
         LED1_OFF;     
-        rt_thread_delay(500);   /* ÑÓÊ±500¸ötick */		 		
+        rt_thread_delay(500);   /* å»¶æ—¶500ä¸ªtick */		 		
         rt_kprintf("led1_thread running,LED1_OFF\r\n");
     }
 }
@@ -77,10 +83,10 @@ static void led2_thread_entry(void* parameter)
     while (1)
     {
         LED2_ON;
-        rt_thread_delay(300);   /* ÑÓÊ±300¸ötick */
+        rt_thread_delay(300);   /* å»¶æ—¶300ä¸ªtick */
         
         LED2_OFF;     
-        rt_thread_delay(300);   /* ÑÓÊ±300¸ötick */		 		
+        rt_thread_delay(300);   /* å»¶æ—¶300ä¸ªtick */		 		
 
     }
 }
