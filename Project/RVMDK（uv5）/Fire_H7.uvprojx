@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Include;..\..\Libraries\CMSIS\Device\ST\STM32H7xx\Include;..\..\Libraries\STM32H7xx_HAL_Driver\Inc;..\..\User;..\..\RT-Thread\3.0.3\components\finsh;..\..\RT-Thread\3.0.3\include;..\..\RT-Thread\3.0.3\include\libc;..\..\User\delay;..\..\User\led</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Include;..\..\Libraries\CMSIS\Device\ST\STM32H7xx\Include;..\..\Libraries\STM32H7xx_HAL_Driver\Inc;..\..\User;..\..\RT-Thread\3.0.3\components\finsh;..\..\RT-Thread\3.0.3\include;..\..\RT-Thread\3.0.3\include\libc;..\..\User\delay;..\..\User\led;..\..\User\usart</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -831,6 +831,11 @@
               <FileName>board.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\User\board.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_debug_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\usart\bsp_debug_usart.c</FilePath>
             </File>
           </Files>
         </Group>
