@@ -78,9 +78,11 @@ static void led2_thread_entry(void* parameter)
     {
         LED2_ON;
         rt_thread_delay(300);   /* 延时300个tick */
+			  rt_kprintf("led1_thread running,LED2_ON\r\n");
         
         LED2_OFF;     
-        rt_thread_delay(300);   /* 延时300个tick */		 		
+        rt_thread_delay(300);   /* 延时300个tick */		
+        rt_kprintf("led1_thread running,LED2_OFF\r\n");			
 
     }
 }
