@@ -83,11 +83,12 @@ static void led2_thread_entry(void* parameter)
     while (1)
     {
         LED2_ON;
-        rt_thread_delay(300);   /* å»¶æ—¶300ä¸ªtick */
+        rt_thread_delay(300);   /* ÑÓÊ±300¸ötick */
+			  rt_kprintf("led1_thread running,LED2_ON\r\n");
         
         LED2_OFF;     
-        rt_thread_delay(300);   /* å»¶æ—¶300ä¸ªtick */		 		
-
+        rt_thread_delay(300);   /* ÑÓÊ±300¸ötick */		
+        rt_kprintf("led1_thread running,LED2_OFF\r\n");			
     }
 }
 /****************************END OF FILE***************************/
